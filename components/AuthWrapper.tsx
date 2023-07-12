@@ -1,4 +1,3 @@
-
 import {  useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 
@@ -20,8 +19,10 @@ interface proptype{
       {method:'POST', headers: {authorization: token || ""}}
       )
       console.log("res-",{res});
-      if(res){
+      if(res.ok){
         setIsAuth(true)
+      }else{
+        router.push('/')
       }
     }
     useEffect(() => {

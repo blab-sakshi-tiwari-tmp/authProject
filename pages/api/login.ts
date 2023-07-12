@@ -1,4 +1,4 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+
 import { error, log } from 'console';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import jwt from 'jsonwebtoken';
@@ -13,18 +13,18 @@ export default function login(req:NextApiRequest,res:NextApiResponse){
   }
   const {email,password}=req.body;
   console.log(email," ",password);
-  
+
   try{
     database.data.map((user)=>{
       // console.log(user);
-      
+
       if(email===user.useremail && password===user.userpassword){
         const {useremail,userpassword,userrole}=user
         console.log(userrole," ",useremail);
-        
+
         role=userrole
         console.log('role-',role);
-        
+
         res.json({
           token:jwt.sign({
             email:email,
@@ -39,5 +39,5 @@ export default function login(req:NextApiRequest,res:NextApiResponse){
     res.json(err?.message);
     // expected output: "Ooopsies!"
   }
-  
+
 }

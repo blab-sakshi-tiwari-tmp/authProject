@@ -14,7 +14,7 @@ function Homepage() {
             {role==='admin' && <Admin/>}
             {role==='teacher' && <Teacher/>}
             {role==='student' && <Student/>}
-            <Logout/>
+            {((role==='admin')||(role==='teacher')||(role==='student')) && <Logout/>}
         </AuthWrapper>
         
         
