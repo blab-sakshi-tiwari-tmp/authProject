@@ -1,0 +1,21 @@
+{"data":[
+    {
+        "id":"3",
+        "useremail":"Sakshi.Tiwari@benthonlabs.com",
+        "userpassword":"sakshi",
+        "userrole":"admin"
+    },
+    {   "id":"1",
+        "useremail":"sorav@gmail.com",
+        "userpassword":"sorav",
+        "userrole":"student"
+    },
+    {
+        "id":"2",
+        "useremail":"shivam@gmail.com",
+        "userpassword":"shivam",
+        "userrole":"teacher"
+    }
+    
+]
+}
