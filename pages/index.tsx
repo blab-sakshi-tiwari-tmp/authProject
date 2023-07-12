@@ -40,7 +40,7 @@ export default function Home() {
     .then((r)=>r.json())
     const token=res.token
       console.log(token);
-      if(token!=undefined && token!=null){
+      if(token===undefined && token===null){
         const json=jwt.decode(token) as {[key:string]:string}
       console.log('json-',json);
       // localStorage.clear();

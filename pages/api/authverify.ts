@@ -4,6 +4,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 function Authverify(req:NextApiRequest,res:NextApiResponse) {
     const token= req?.headers?.authorization
+    console.log("t-",token);
+    
 const KEY="dffnhbjsnjbfhewefwcew"
     const decoded = jwt.verify(token || "", KEY);
     console.log("decode-",{decoded})
