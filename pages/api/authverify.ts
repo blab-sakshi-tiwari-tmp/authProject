@@ -21,6 +21,7 @@ if(newtoken){
     // console.log("decode-",{decoded})
      res.json(decoded)
     }}
+    res.end()
 }
 
 export default Authverify
