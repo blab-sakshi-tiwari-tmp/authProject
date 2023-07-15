@@ -7,8 +7,9 @@ function Logout() {
         router.push('/')
 
     }
-    return (
+    return (<>
         <button type="button" onClick={logoutHandler}>logout</button>
+        </>
     )
 }
 
