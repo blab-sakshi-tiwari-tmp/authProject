@@ -1,61 +1,40 @@
-import Head from "next/head";
-import { Inter } from "next/font/google";
-import { useState } from "react";
-import jwt from "jsonwebtoken";
+import Head from 'next/head'
+import { Inter } from 'next/font/google'
+import { useState } from 'react'
+import jwt from 'jsonwebtoken'
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router'
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import { setrole } from "@/redux/features/role-slice";
-import { Auth } from "@/components/utils/utils";
-const inter = Inter({ subsets: ["latin"] });
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { setrole } from '@/redux/features/role-slice';
+const inter = Inter({ subsets: ['latin'] })
 export default function Home() {
   // console.log(value);
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch=useDispatch<AppDispatch>()
   // let { role } = value.state;
   const schema = yup.object().shape({
-    email: yup
-      .string()
-      .email("email must be in correct format")
-      .required("email is valid"),
-    password: yup
-      .string()
-      .required("password is valid")
-      .min(6, "password must be more than 5 characters")
-      .max(32, "password must be less than 32 characters"),
+    email: yup.string().email("email must be in correct format").required("email is valid"),
+    password: yup.string().required("password is valid").min(6,"password must be more than 5 characters").max(32,"password must be less than 32 characters"),
   });
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const { register, handleSubmit, formState: { errors } } = useForm(
+    {
+      resolver: yupResolver(schema),
+    }
+  );
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const router = useRouter();
+  const [email,setEmail]=useState('')
+  const [password,setPassword]=useState('')
+  const router=useRouter()
 
-  async function submit(e: any) {
-    // async function submit() {
-    e.preventDefault();
-    console.log("jereer");
-    // handleSubmit((data) => {
-    //   console.log(data, "data-------------");
-
-    //   const schema = {
-    //     username: "nubul",
-    //     password: "password",
-    //   };
-    //   Auth(schema).then((res) => {
-    //     console.log(res, "response");
-    //   });
-    // });
-    // ********************************************
+  
+  async function submit(e:any){
+    e.preventDefault()
+    console.log(email,password);
+    
     const res=await fetch('./api/login',
     {method:'POST',
     headers:{"Content-Type":"application/json"},
@@ -64,14 +43,18 @@ export default function Home() {
     .then((r)=>r.json())
     const token=res.token
       console.log(token);
-      if(token===undefined && token===null){
+      if(token!=undefined && token!=null){
         const json=jwt.decode(token) as {[key:string]:string}
       console.log('json-',json);
       // localStorage.clear();
       if(json.check){
         localStorage.setItem("SavedToken", 'Bearer ' + token);
         dispatch(setrole(json.role))
+
         router.push('/homepage')}
+      
+      
+        
       }else{
         router.push('/');
         setEmail('');
@@ -79,7 +62,7 @@ export default function Home() {
         return;
       }
   }
-
+  
   return (
     <>
       <Head>
@@ -88,59 +71,32 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100vw",
-            height: "100vh",
-          }}
-        >
-          <div style={{ width: 400, height: 400 }}>
-            <form method="POST" action='/api/login'  onSubmit={submit}>
-              <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
+      <main >
+      <div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100vw',height:'100vh'}}>
+        <div style={{width:400,height:400}}>
+            
+        <form method='POST'  onSubmit={submit} >
+    <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
 
-              <div className="form-floating">
-                <input
-                  type="email"
-                  className="form-control"
-                  value={email}
-                  {...register("email")}
-                  onChange={(e) => setEmail(e.target.value)}
-                  id="floatingInput"
-                  placeholder="name@example.com"
-                />
-                <label htmlFor="floatingInput">Email address</label>
-                {errors.email?.message && (
-                  <p style={{ color: "red" }}>{errors.email?.message}</p>
-                )}
-              </div>
-              <div className="form-floating">
-                <input
-                  type="password"
-                  className="form-control"
-                  value={password}
-                  {...register("password")}
-                  onChange={(e) => setPassword(e.target.value)}
-                  id="floatingPassword"
-                  placeholder="Password"
-                />
-                <label htmlFor="floatingPassword">Password</label>
-                {errors.password?.message && (
-                  <p style={{ color: "red" }}>{errors.password?.message}</p>
-                )}
-              </div>
+    <div className="form-floating">
+      <input type="email" className="form-control" value={email} {...register('email')} onChange={(e)=>setEmail(e.target.value)} id="floatingInput" placeholder="name@example.com"/>
+      <label htmlFor="floatingInput">Email address</label>
+      {errors.email?.message && <p style={{color:"red"}}>{errors.email?.message}</p>}
+    </div>
+    <div className="form-floating">
+      <input type="password" className="form-control" value={password} {...register('password')} onChange={(e)=>setPassword(e.target.value)} id="floatingPassword" placeholder="Password"/>
+      <label htmlFor="floatingPassword">Password</label>
+      {errors.password?.message && <p style={{color:"red"}}>{errors.password?.message}</p>}
+    </div>
 
-              <div className="form-check text-start my-3"></div>
-              <button className="btn btn-primary w-100 py-2" type="submit">
-                Sign in
-              </button>
-            </form>
-          </div>
+    <div className="form-check text-start my-3">
+      
+    </div>
+    <button className="btn btn-primary w-100 py-2" type="submit" >Sign in</button>
+  </form>
+        </div>
         </div>
       </main>
     </>
-  );
+  )
 }

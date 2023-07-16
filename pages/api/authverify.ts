@@ -6,16 +6,16 @@ function Authverify(req:NextApiRequest,res:NextApiResponse) {
     
     if(req?.headers?.authorization!='undefined'){
     const token:string| undefined = req?.headers?.authorization;
-    console.log("token-----------",token);
+    // console.log("token-----------",token);
     
     const newtoken=token?.split(" ")[1]
-    console.log("token:-",newtoken);
+    // console.log("token:-",newtoken);
 const KEY="dffnhbjsnjbfhewefwcew"
 if(newtoken){
     const decoded = jwt.verify(newtoken || "",KEY, function(err, decoded:any) {
         if (err) res.status(500).send(err)
         //req.username = decoded.username;
-        console.log(decoded)
+        // console.log(decoded)
         
       })
     // console.log("decode-",{decoded})
